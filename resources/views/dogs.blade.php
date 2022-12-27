@@ -41,7 +41,9 @@
             }
 
             .content {
-                text-align: center;
+                display: grid;
+                grid-template-columns: auto auto auto;
+                padding: 10px;
             }
 
             .title {
@@ -64,7 +66,7 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -84,8 +86,11 @@
             @endif
 
             <div class="content">
-                <div class="links">
-                    <img src="{{ asset('img/logo.png') }}" alt="Paperwork Rite Kennels" height="700" width="700">
+                <div>
+                    <img src="{{ asset('img/logo.png') }}" alt="Paperwork Rite Kennels" width="200" height="200">
+                </div>
+                <div>
+                    <h1>Dogs</h1>
                 </div>
             </div>
         </div>

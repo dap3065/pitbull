@@ -40,6 +40,20 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
@@ -58,6 +72,25 @@
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 col-form-label text-md-right ">
+                                <span>
+                                    <input
+                                        type="checkbox" id="allow_notifications"
+                                        name="allow_notifications"
+                                        aria-label="Allow Text notifications"
+                                        checked
+                                    >
+                                </span>
+                                <label
+                                    class="c-checkbox-label cursor-pointer font-weight-normal pt-100 pb-100 pl-100 mb-none "
+                                    for="is-recovery-phone"
+                                >
+                                    {{ __('Allow text notifications') }}
+                                </label>
                             </div>
                         </div>
 

@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/about', 'AboutController@index')->name('about');
+Route::get('/contact-us', 'ContactController@index')->name('contact');
+Route::get('/dogs', 'DogController@index')->name('dogs');
+Route::get('/services', 'ServicesController@index')->name('services');
 
 Auth::routes();
 
