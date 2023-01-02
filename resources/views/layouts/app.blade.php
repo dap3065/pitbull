@@ -90,6 +90,17 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
+                                    @hasrole('Admin')
+                                        <a class="dropdown-item" href="{{ route('create-dog') }}">
+                                            {{ __('Create Dog') }}
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('create-service') }}">
+                                            {{ __('Create Service') }}
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('send-message') }}">
+                                            {{ __('Send Text Message') }}
+                                        </a>
+                                    @endhasrole
                                     <a class="dropdown-item" href="{{ route('about') }}">
                                         {{ __('About Us') }}
                                     </a>

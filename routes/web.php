@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,6 @@ Route::get('/services', 'ServicesController@index')->name('services');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/create-dog', 'DogController@create')->name('create-dog')->middleware('auth');
+Route::get('/send-message', 'MessageController@create')->name('send-message')->middleware('auth');
+Route::get('/create-service', 'ServicesController@create')->name('create-service')->middleware('auth');
