@@ -12,7 +12,12 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run()
     {
-        Role::create(['name' => 'Admin']);
-        Role::create(['name' => 'Customer']);
+        $roles = Role::all()->pluck('name');
+        if (!$roles->contains('Admin')) {
+            Role::create(['name' => 'Admin']);
+        }
+        if (!$roles->contains('Customer')) {
+            Role::create(['name' => 'Customer']);
+        }
     }
 }
