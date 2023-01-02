@@ -6,3 +6,18 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+@media screen and (min-width: 481px) {
+    .logo {
+        width: 600px;
+        height: 350px;
+        position: relative;
+        top: -25px;
+    }
+}
+@media screen and (max-width: 480px) {
+    .logo {
+        width: 200px;
+        height: 200px;
+    }
+}
