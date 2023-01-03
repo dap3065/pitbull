@@ -43,7 +43,7 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+                                <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -82,6 +82,7 @@
                                         type="checkbox" id="allow_notifications"
                                         name="allow_notifications"
                                         aria-label="Allow Text notifications"
+                                        value="1"
                                         checked
                                     >
                                 </span>

@@ -4,9 +4,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div>
-                <h1>Our Services</h1>
+                <h1>Our Kennel</h1>
                 <div>
-                    services....
+                    Dogs
                 </div>
             </div>
         </div>

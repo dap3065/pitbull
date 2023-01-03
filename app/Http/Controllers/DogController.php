@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Dog;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DogController extends Controller
 {
@@ -14,7 +16,7 @@ class DogController extends Controller
      */
     public function index()
     {
-        return view('dogs');
+        return view('dog.index');
     }
 
     /**
@@ -24,7 +26,12 @@ class DogController extends Controller
      */
     public function create()
     {
-        //
+        /** @var User $user */
+        $user = auth()->user();
+        if (!$user->hasRole('Admin')) {
+            return redirect()->route('dogs');
+        }
+        return view('dog.create');
     }
 
     /**
@@ -35,7 +42,7 @@ class DogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect()->route('dogs');
     }
 
     /**
@@ -46,7 +53,7 @@ class DogController extends Controller
      */
     public function show(Dog $dog)
     {
-        //
+        return view('dog.show', compact($dog));
     }
 
     /**
@@ -57,7 +64,7 @@ class DogController extends Controller
      */
     public function edit(Dog $dog)
     {
-        //
+        return view('dog.create', compact($dog));
     }
 
     /**
@@ -69,7 +76,7 @@ class DogController extends Controller
      */
     public function update(Request $request, Dog $dog)
     {
-        //
+        return redirect()->route('dogs');
     }
 
     /**
@@ -80,6 +87,6 @@ class DogController extends Controller
      */
     public function destroy(Dog $dog)
     {
-        //
+        return redirect()->route('dogs');
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Message;
+use App\Service;
 use App\User;
 use Illuminate\Http\Request;
 
-class MessageController extends Controller
+class ServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,7 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $messages = Message::all();
-        return view('message.index', compact($messages));
+        return view('service.index');
     }
 
     /**
@@ -29,9 +28,9 @@ class MessageController extends Controller
         /** @var User $user */
         $user = auth()->user();
         if (!$user->hasRole('Admin')) {
-            return redirect()->route('home');
+            return redirect()->route('services');
         }
-        return view('message.create');
+        return view('service.create');
     }
 
     /**
@@ -42,51 +41,51 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect()->route('send-message');
+        return redirect()->route('services');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Message  $message
+     * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function show(Message $message)
+    public function show(Service $service)
     {
-        //
+        return view('service.show', compact($service));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Message  $message
+     * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function edit(Message $message)
+    public function edit(Service $service)
     {
-        //
+        return view('service.create', compact($service));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Message  $message
+     * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Message $message)
+    public function update(Request $request, Service $service)
     {
-        //
+        return redirect()->route('services');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Message  $message
+     * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Message $message)
+    public function destroy(Service $service)
     {
-        //
+        return redirect()->route('services');
     }
 }
