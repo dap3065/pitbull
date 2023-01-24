@@ -230,4 +230,8 @@ return [
 
     ],
 
+    'email' => env('APP_EMAIL', 'dap3065@yahoo.com'),
+    'phone' => env('APP_PHONE', '8178888888'),
+
+
 ];

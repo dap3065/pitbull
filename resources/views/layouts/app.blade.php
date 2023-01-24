@@ -21,7 +21,7 @@
     <style>
         html, body {
             background-color: black;
-            color: blue;
+            color: white;
             font-family: 'Nunito', sans-serif;
             font-weight: 200;
             height: 100vh;
@@ -29,10 +29,19 @@
         }
         nav {
             background-color: black;
-            color: blue;
+            color: white;
         }
         .navbar-brand, .navbar-nav, .nav-item {
-            color: blue;
+            color: white;
+        }
+        .contact-us {
+            color: white;
+        }
+        .login {
+            color: black;
+        }
+        .register {
+            color: black;
         }
     </style>
 </head>
@@ -70,7 +79,7 @@
                                 <a class="nav-link" href="{{ route('about') }}">{{ __('About Us') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('dogs') }}">{{ __('Our Kennels') }}</a>
+                                <a class="nav-link" href="{{ route('pitbulls') }}">{{ __('Our Kennels') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('services') }}">{{ __('Our Services') }}</a>
@@ -91,7 +100,7 @@
                                         {{ __('Logout') }}
                                     </a>
                                     @hasrole('Admin')
-                                        <a class="dropdown-item" href="{{ route('create-dog') }}">
+                                        <a class="dropdown-item" href="{{ route('create-pitbull') }}">
                                             {{ __('Create Dog') }}
                                         </a>
                                         <a class="dropdown-item" href="{{ route('create-service') }}">
@@ -104,7 +113,7 @@
                                     <a class="dropdown-item" href="{{ route('about') }}">
                                         {{ __('About Us') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('dogs') }}">
+                                    <a class="dropdown-item" href="{{ route('pitbulls') }}">
                                         {{ __('Our Kennels') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('services') }}">

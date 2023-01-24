@@ -19,12 +19,14 @@ Route::get('/', function () {
 });
 Route::get('/about', 'AboutController@index')->name('about');
 Route::get('/contact-us', 'ContactController@index')->name('contact');
-Route::get('/dogs', 'DogController@index')->name('dogs');
+Route::post('/contact-us', 'ContactController@store')->name('contact-store');
+Route::get('/pitbulls', 'DogController@index')->name('pitbulls');
+Route::get('/pitbulls/{dog}', 'DogController@index')->name('show-pitbull');
 Route::get('/services', 'ServiceController@index')->name('services');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/create-dog', 'DogController@create')->name('create-dog')->middleware('auth');
+Route::get('/create-pitbull', 'DogController@create')->name('create-pitbull')->middleware('auth');
 Route::get('/send-message', 'MessageController@create')->name('send-message')->middleware('auth');
 Route::get('/create-service', 'ServiceController@create')->name('create-service')->middleware('auth');
