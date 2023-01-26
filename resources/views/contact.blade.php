@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="containe contact-us">
+    <div class="container contact-us">
         <div class="row justify-content-center">
             <div>
                 <h1>Contact Us</h1>
