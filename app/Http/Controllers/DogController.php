@@ -30,7 +30,7 @@ class DogController extends Controller
         /** @var User $user */
         $user = auth()->user();
         if (!$user->hasRole('Admin')) {
-            return redirect()->route('dogs');
+            return redirect()->route('pitbulls');
         }
         return view('dog.create');
     }
@@ -48,6 +48,7 @@ class DogController extends Controller
         if (!$user->hasRole('Admin')) {
             return redirect()->route('pitbulls');
         }
+        Log::error(ini_get('upload_max_filesize') . ' max upload size');
         $request->validate([
             'name' => 'required|max:255',
             'description' => 'required',
@@ -55,7 +56,7 @@ class DogController extends Controller
             'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
             'image' => 'required|image|mimes:png,jpg,jpeg|max:6144'
         ]);
-
+        Log::error('Made it pass validation');
         $imageName = time().'.'.$request->image->extension();
 
         // Public Folder
