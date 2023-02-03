@@ -25,6 +25,9 @@ Route::get('/pitbulls', 'DogController@index')->name('pitbulls');
 Route::get('/pitbulls/{dog}', 'DogController@show')->name('show-pitbull');
 Route::get('/services', 'ServiceController@index')->name('services');
 Route::get('/services/{service}', 'ServiceController@show')->name('show-service');
+Route::get('/phpmyinfo', function () {
+    phpinfo();
+})->name('phpmyinfo');
 
 Auth::routes();
 
