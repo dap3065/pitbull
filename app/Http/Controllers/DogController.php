@@ -6,6 +6,7 @@ use App\Dog;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DogController extends Controller
 {
@@ -16,7 +17,7 @@ class DogController extends Controller
      */
     public function index()
     {
-        return view('dog.index');
+        return view('dog.index', ['pitbulls' => Dog::all()]);
     }
 
     /**
@@ -24,7 +25,7 @@ class DogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         /** @var User $user */
         $user = auth()->user();
@@ -38,11 +39,34 @@ class DogController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        return redirect()->route('dogs');
+        /** @var User $user */
+        $user = auth()->user();
+        if (!$user->hasRole('Admin')) {
+            return redirect()->route('pitbulls');
+        }
+        $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required',
+            'type' => 'required',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'image' => 'required|image|mimes:png,jpg,jpeg|max:6144'
+        ]);
+
+        $imageName = time().'.'.$request->image->extension();
+
+        // Public Folder
+        $request->image->move(public_path('img'), $imageName);
+        $input = $request->all();
+        unset($input['image']);
+        $input['image_path'] = 'img/' . $imageName;
+        $pitbull = Dog::create($input);
+        Log::error('dog created ' . $pitbull->id);
+        return back()->with('success', 'Pitbull added successfully!')
+            ->with(['image' => $imageName, 'pitbull' => $pitbull]);
     }
 
     /**
@@ -53,7 +77,7 @@ class DogController extends Controller
      */
     public function show(Dog $dog)
     {
-        return view('dog.show', compact($dog));
+        return view('dog.show', ['pitbull' => $dog]);
     }
 
     /**

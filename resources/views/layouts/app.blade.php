@@ -34,15 +34,6 @@
         .navbar-brand, .navbar-nav, .nav-item {
             color: white;
         }
-        .contact-us {
-            color: white;
-        }
-        .login {
-            color: black;
-        }
-        .register {
-            color: black;
-        }
     </style>
 </head>
 <body>
@@ -70,7 +61,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                            @if (Route::has('register'))
+                            @if (\Illuminate\Support\Facades\Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
@@ -106,7 +97,7 @@
                                         <a class="dropdown-item" href="{{ route('create-service') }}">
                                             {{ __('Create Service') }}
                                         </a>
-                                        <a class="dropdown-item" href="{{ route('send-message') }}">
+                                        <a class="dropdown-item" href="{{ route('create-message') }}">
                                             {{ __('Send Text Message') }}
                                         </a>
                                     @endhasrole

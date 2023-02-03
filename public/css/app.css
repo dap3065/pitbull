@@ -12258,6 +12258,36 @@ a.text-dark:hover, a.text-dark:focus {
   clip: auto;
 }
 
+.error {
+  font-weight: bold;
+  color: red;
+}
+
+.carousel-caption {
+  font-weight: bold;
+  color: blue;
+}
+
+.contact-us {
+  color: white;
+}
+
+.login {
+  color: black;
+}
+
+.register {
+  color: black;
+}
+
+.dashboard {
+  color: black;
+}
+
+.message {
+  color: black;
+}
+
 @media screen and (min-width: 481px) {
   .logo {
     width: 600px;

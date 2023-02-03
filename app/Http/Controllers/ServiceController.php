@@ -15,7 +15,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return view('service.index');
+        return view('service.index', ['services' => Service::all()]);
     }
 
     /**
@@ -41,7 +41,21 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect()->route('services');
+        /** @var User $user */
+        $user = auth()->user();
+        if (!$user->hasRole('Admin')) {
+            return redirect()->route('services');
+        }
+        $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+        ]);
+
+        $input = $request->all();
+        $service = Service::create($input);
+        return back()->with('success', 'Service added successfully!')
+            ->with(['service' => $service]);
     }
 
     /**
@@ -52,7 +66,7 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        return view('service.show', compact($service));
+        return view('service.show', ['service' => $service]);
     }
 
     /**
