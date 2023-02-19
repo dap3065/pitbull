@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="subject" class="form-label">Subject</label>
-                                        <input type="text" class="form-control" id="subject" />
+                                        <input type="text" class="form-control" name="subject" id="subject" />
                                     </div>
                                     <div class="form-group">
                                         <label for="body">Notification Message
