@@ -5,7 +5,16 @@
         <div class="row justify-content-center">
             <div>
                 <h1 style="text-align: center">Our Services</h1>
-                <div>
+                @if ($message = \Illuminate\Support\Facades\Session::get('success'))
+                    <div class="alert alert-success alert-block">
+                        <strong>{{$message}}</strong>
+                    </div>
+                @elseif($message = \Illuminate\Support\Facades\Session::get('error'))
+                    <div class="alert alert-danger alert-block">
+                        <strong>{{$message}}</strong>
+                    </div>
+                @endif
+                <div class="px-2 mx-2">
                     @if (count($services) > 0)
                         <div class="row">
                             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -22,35 +31,47 @@
                                     @foreach ($services as $service)
                                         @if ($loop->first)
                                             <div class="carousel-item active">
-                                                <div style="height: 50vh; width: 80vw; text-align: center;">
+                                                <div style="min-height: 200px; text-align: center;">
                                                     <div class="d-block w-100">{{ $service->name }}</div>
                                                     <div>{{ $service->description }}</div>
                                                     <div>@money($service->price)</div>
                                                 </div>
-                                                <div class="carousel-caption d-none d-md-block">
+                                                <div class="carousel-caption">
                                                     <div>
 
                                                         <a class="btn btn-dark" href="{{ route('show-service', ['service' => $service]) }}">View</a>
-                                                        <a class="btn btn-dark" href="{{ route('show-service', ['service' => $service]) }}">Buy</a>
+                                                        <a class="btn btn-dark" href="{{ route('make.payment', ['service' => $service]) }}">Buy</a>
                                                         @hasrole('Admin')
-                                                            <a class="btn btn-dark" href="{{ route('show-service', ['service' => $service]) }}">Edit</a>
+                                                            <a class="btn btn-dark" href="{{ route('edit-service', ['service' => $service]) }}">Edit</a>
+                                                            <form action="{{ route('delete-service', ['service' => $service]) }}" method="post">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="btn btn-dark" onclick="return confirm('Are you sure?')"
+                                                                    type="submit" name="Delete">Delete</button>
+                                                            </form>
                                                         @endhasrole
                                                     </div>
                                                 </div>
                                             </div>
                                         @else
                                             <div class="carousel-item">
-                                                <div style="height: 50vh; width: 80vw; text-align: center;">
+                                                <div style="min-height: 200px; text-align: center;">
                                                     <div class="d-block w-100">{{ $service->name }}</div>
                                                     <div>{{ $service->description }}</div>
                                                     <div>@money($service->price)</div>
                                                 </div>
-                                                <div class="carousel-caption d-none d-md-block">
+                                                <div class="carousel-caption ">
                                                     <div>
                                                         <a class="btn btn-dark" href="{{ route('show-service', ['service' => $service]) }}">View</a>
-                                                        <a class="btn btn-dark" href="{{ route('show-service', ['service' => $service]) }}">Buy</a>
+                                                        <a class="btn btn-dark" href="{{ route('make.payment', ['service' => $service]) }}">Buy</a>
                                                         @hasrole('Admin')
-                                                            <a class="btn btn-dark" href="{{ route('show-service', ['service' => $service]) }}">Edit</a>
+                                                            <a class="btn btn-dark" href="{{ route('edit-service', ['service' => $service]) }}">Edit</a>
+                                                            <form action="{{ route('delete-service', ['service' => $service]) }}" method="post">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="btn btn-dark" onclick="return confirm('Are you sure?')"
+                                                                    type="submit" name="Delete">Delete</button>
+                                                            </form>
                                                         @endhasrole
                                                     </div>
                                                 </div>

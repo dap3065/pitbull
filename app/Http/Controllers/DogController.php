@@ -32,7 +32,8 @@ class DogController extends Controller
         if (!$user->hasRole('Admin')) {
             return redirect()->route('pitbulls');
         }
-        return view('dog.create');
+        $dog = new Dog();
+        return view('dog.create', ['pitbull' => $dog]);
     }
 
     /**
@@ -62,6 +63,7 @@ class DogController extends Controller
         // Public Folder
         $request->image->move(public_path('img'), $imageName);
         $input = $request->all();
+        $input['description'] = trim($input['description']);
         unset($input['image']);
         $input['image_path'] = 'img/' . $imageName;
         $pitbull = Dog::create($input);
@@ -89,7 +91,7 @@ class DogController extends Controller
      */
     public function edit(Dog $dog)
     {
-        return view('dog.create', compact($dog));
+        return view('dog.create', ['pitbull' => $dog]);
     }
 
     /**
@@ -97,11 +99,33 @@ class DogController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Dog  $dog
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Dog $dog)
     {
-        return redirect()->route('dogs');
+        $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required',
+            'type' => 'required',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg|max:6144'
+        ]);
+        Log::error('Made it pass validation');
+        $input = $request->all();
+        $input['description'] = trim($input['description']);
+        if ($request->image) {
+            $imageName = time().'.'.$request->image->extension();
+
+            // Public Folder
+            $request->image->move(public_path('img'), $imageName);
+            $input['image_path'] = 'img/' . $imageName;
+            unlink(public_path() . '/' . $dog->image_path);
+        }
+        unset($input['image']);
+        $pitbull = $dog->update($input);
+        return redirect()->route('pitbulls')
+            ->with('success', 'Pitbull updated successfully!')
+            ->with(['pitbull' => $pitbull]);
     }
 
     /**
@@ -112,6 +136,8 @@ class DogController extends Controller
      */
     public function destroy(Dog $dog)
     {
+        unlink(public_path() . '/' . $dog->image_path);
+        $dog->delete();
         return redirect()->route('dogs');
     }
 }

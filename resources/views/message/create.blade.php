@@ -28,18 +28,34 @@
                                 <form method="POST" action="{{ route('send-message') }}">
                                     @csrf
                                     <div class="form-group">
-                                        <label>Select users to notify</label>
-                                        <select name="users[]" multiple class="form-control">
-                                            @foreach ($users as $user)
-                                                <option>{{ $user->phone }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="users[]">Select users to notify
+                                            <select name="users[]" multiple class="form-control">
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->phone }}">{{ $user->name }} ({{ $user->phone }}) ({{ $user->email }})</option>
+                                                @endforeach
+                                            </select>
+                                        </label>
                                     </div>
                                     <div class="form-group">
-                                        <label>Notification Message</label>
-                                        <textarea name="body" class="form-control" rows="3"></textarea>
+                                        <label for="subject" class="form-label">Subject</label>
+                                        <input type="text" class="form-control" id="subject" />
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Send Notification</button>
+                                    <div class="form-group">
+                                        <label for="body">Notification Message
+                                            <textarea name="body" class="form-control" rows="3" cols="50"></textarea>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="email" type="checkbox" value="1" id="flexCheckDefault" />
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Send email also
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="mx-auto text-center">
+                                        <button type="submit" class="btn btn-primary">Send Notification</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>

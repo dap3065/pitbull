@@ -30,7 +30,8 @@ class ServiceController extends Controller
         if (!$user->hasRole('Admin')) {
             return redirect()->route('services');
         }
-        return view('service.create');
+        $service = new Service();
+        return view('service.create', ['service' => $service]);
     }
 
     /**
@@ -53,6 +54,7 @@ class ServiceController extends Controller
         ]);
 
         $input = $request->all();
+        $input['description'] = trim($input['description']);
         $service = Service::create($input);
         return back()->with('success', 'Service added successfully!')
             ->with(['service' => $service]);
@@ -77,7 +79,7 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        return view('service.create', compact($service));
+        return view('service.create', ['service' => $service]);
     }
 
     /**
@@ -89,7 +91,17 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        return redirect()->route('services');
+        $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+        ]);
+
+        $input = $request->all();
+        $input['description'] = trim($input['description']);
+        $service->update($input);
+        return back()->with('success', 'Service updated successfully!')
+            ->with(['service' => $service]);
     }
 
     /**
@@ -100,6 +112,8 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
+
+        $service->delete();
         return redirect()->route('services');
     }
 }

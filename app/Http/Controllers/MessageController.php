@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Message;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Twilio\Rest\Client;
 
 class MessageController extends Controller
@@ -39,18 +40,47 @@ class MessageController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'users' => 'required|array',
             'body' => 'required',
+            'subject' => 'required',
+            'email' => 'nullable|boolean'
         ]);
         $recipients = $validatedData["users"];
         // iterate over the array of recipients and send a twilio request for each
         foreach ($recipients as $recipient) {
+            $toUser = User::where('phone', $recipient)->first();
+            $fromUser = auth()->user();
             $this->sendMessage($validatedData["body"], $recipient);
+            Message::create([
+                'to' => $toUser->id,
+                'from' => $fromUser->id,
+                'subject' => $validatedData['subject'],
+                'message' => $validatedData['body'],
+                'type' => 'text'
+            ]);
+            if ($toUser && $validatedData['email']) {
+                Mail::send('message-user-email', [
+                    'name' => $toUser->name,
+                    'appName' => config('app.name'),
+                    'subject' => $validatedData['subject'],
+                    'body' => $validatedData['body'],
+                ], function($message) use ($toUser, $validatedData){
+                    $message->from(config('app.email'), config('app.name'));
+                    $message->to($toUser->email, 'Admin')->subject($validatedData['subject']);
+                });
+                Message::create([
+                    'to' => $toUser->id,
+                    'from' => $fromUser->id,
+                    'subject' => $validatedData['subject'],
+                    'message' => $validatedData['body'],
+                    'type' => 'email'
+                ]);
+            }
         }
         return back()->with(['success' => "Messages on their way!"]);
     }

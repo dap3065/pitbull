@@ -14,10 +14,15 @@
                             Price: @money($service->price)
                         </p>
                         <p>
-                            <a class="btn btn-dark" href="{{ route('show-service', ['service' => $service]) }}">Buy</a>
+                            <a class="btn btn-dark" href="{{ route('make.payment', ['service' => $service]) }}">Buy</a>
                             @hasrole('Admin')
-                                <a class="btn btn-dark" href="{{ route('show-service', ['service' => $service]) }}">Edit</a>
-                                <a class="btn btn-dark" href="{{ route('show-service', ['service' => $service]) }}">Delete</a>
+                                <a class="btn btn-dark" href="{{ route('edit-service', ['service' => $service]) }}">Edit</a>
+                                <form action="{{ route('delete-service', ['service' => $service]) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-dark" onclick="return confirm('Are you sure?')"
+                                        type="submit" name="Delete">Delete</button>
+                                </form>
                             @endhasrole
                         </p>
                     </div>

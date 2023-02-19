@@ -1,12 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container welcome">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <img class="logo" src="{{ asset('img/logo.png') }}" alt="Paperwork Rite Kennels" width="200" height="200">
+            @if ($message = \Illuminate\Support\Facades\Session::get('success'))
+                <div class="alert alert-success alert-block col-12">
+                    <strong>{{$message}}</strong>
+                </div>
+            @elseif($message = \Illuminate\Support\Facades\Session::get('error'))
+                <div class="alert alert-danger alert-block col-12">
+                    <strong>{{$message}}</strong>
+                </div>
+            @endif
+            <div class="col-md-6 col-sm-12 mx-auto">
+                <img class="logo img-fluid" src="{{ asset('img/logo.png') }}" alt="Paperwork Rite Kennels">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 col-sm-12 mx-auto">
                 @if (count($pitbulls) > 0)
                     <div class="row">
                         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -23,24 +32,42 @@
                                 @foreach ($pitbulls as $pitbull)
                                     @if ($loop->first)
                                         <div class="carousel-item active">
-                                            <img class="d-block w-100" src="{{ asset($pitbull->image_path) }}" alt="First slide">
-                                            <div class="carousel-caption d-none d-md-block">
+                                            <img class="d-block w-100 img-fluid" src="{{ asset($pitbull->image_path) }}" alt="First slide">
+                                            <div class="carousel-caption">
                                                 <h5>{{ $pitbull->name }}</h5>
                                                 <div>
                                                     <a class="btn btn-dark" href="{{ route('show-pitbull', ['dog' => $pitbull]) }}">View</a>
                                                     <a class="btn btn-dark" href="{{ route('show-pitbull', ['dog' => $pitbull]) }}">Buy</a>
                                                     @hasrole('Admin')
-                                                        <a class="btn btn-dark" href="{{ route('show-pitbull', ['dog' => $pitbull]) }}">Edit</a>
+                                                        <a class="btn btn-dark" href="{{ route('edit-pitbull', ['dog' => $pitbull]) }}">Edit</a>
+                                                    <form action="{{ route('delete-pitbull', ['dog' => $pitbull]) }}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-dark" onclick="return confirm('Are you sure?')"
+                                                                type="submit" name="Delete">Delete</button>
+                                                    </form>
                                                     @endhasrole
                                                 </div>
                                             </div>
                                         </div>
                                     @else
                                         <div class="carousel-item">
-                                            <img class="d-block w-100" src="{{ asset($pitbull->image_path) }}" alt="{{ $pitbull->id }} slide">
-                                            <div class="carousel-caption d-none d-md-block">
+                                            <img class="d-block w-100 img-fluid" src="{{ asset($pitbull->image_path) }}" alt="{{ $pitbull->id }} slide">
+                                            <div class="carousel-caption">
                                                 <h5>{{ $pitbull->name }}</h5>
-                                                <p>{{ $pitbull->description }}</p>
+                                                <div>
+                                                    <a class="btn btn-dark" href="{{ route('show-pitbull', ['dog' => $pitbull]) }}">View</a>
+                                                    <a class="btn btn-dark" href="{{ route('make.payment', ['pitbull' => $pitbull]) }}">Buy</a>
+                                                    @hasrole('Admin')
+                                                        <a class="btn btn-dark" href="{{ route('edit-pitbull', ['dog' => $pitbull]) }}">Edit</a>
+                                                        <form action="{{ route('delete-pitbull', ['dog' => $pitbull]) }}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="btn btn-dark" onclick="return confirm('Are you sure?')"
+                                                                type="submit" name="Delete">Delete</button>
+                                                        </form>
+                                                    @endhasrole
+                                                </div>
                                             </div>
                                         </div>
                                     @endif
