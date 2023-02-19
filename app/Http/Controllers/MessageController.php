@@ -64,7 +64,7 @@ class MessageController extends Controller
                 'type' => 'text'
             ]);
             if ($toUser && $validatedData['email']) {
-                Mail::send('message-user-email', [
+                Mail::send('message-user-mail', [
                     'name' => $toUser->name,
                     'appName' => config('app.name'),
                     'subject' => $validatedData['subject'],
